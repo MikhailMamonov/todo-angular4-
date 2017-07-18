@@ -1,0 +1,72 @@
+.my-icon {
+    font-size: 500%; /* Размер шрифта в процентах */
+    font-family: serif; /* Шрифт с засечками */
+    position: center; /* Относительное позиционирование */
+    text-align: center;
+    top: 5px; /* Сдвиг сверху */
+    color: green;
+    margin-bottom: 10px;
+}
+
+a.icon-link{
+    color: green;
+}
+
+a.icon-link-add{
+    color: gray;
+    margin-bottom: 1px;
+}
+
+.task-header{
+    position: center; /* Относительное позиционирование */
+    text-align: center;
+    top: 5px; /* Сдвиг сверху */
+}
+.description-header{
+    position: center; /* Относительное позиционирование */
+    text-align: center;
+    top: 5px; /* Сдвиг сверху */
+}
+.task-label{
+    height: 30px;
+    text-align: left;
+    margin-top:1px;
+    padding-bottom:20px;
+    margin-left: -10px;
+}
+
+.task-label-buttons{
+    padding-top: 5px;
+    text-align: left;
+    margin-top:10px;
+}
+
+.number{
+    margin-left: -23px;
+    width: 72px;
+}
+
+.number-separator{
+    margin-left: -23px;
+    margin-top: 5px;
+    margin-right: -40px;
+    width: 72px;
+}
+
+.brd {
+    border: 1px double lightskyblue; /* Параметры границы */
+}
+
+.brdUp{
+    border-top: 1px solid #ccc;
+    padding-top: 10px;
+    padding-top: 10px;
+    padding-left: 15px;
+    //padding: 10px; /* Поля вокруг текста */
+}
+
+.done{
+    margin-top: 5px;
+    margin-left: 15px;
+    visibility: hidden;
+}

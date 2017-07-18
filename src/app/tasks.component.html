@@ -1,0 +1,40 @@
+<h2>My Heroes</h2>
+<div>
+  <label>Task name:</label> <input #heroName />
+  <button (click)="add(heroName.value); heroName.value=''">
+    Add
+  </button>
+</div>
+
+<hero-search></hero-search>
+  <div class="checkbox brdUp" id="task" *ngFor="let task of tasks| filter:test" (click)="onSelect(task)">
+      [class.selected]="task === selectedTask">
+    <label><input type="checkbox" value=""  ng-model="someModel">{{ task }}</label>
+    <span class="badge">{{task.id}}</span>
+    <span>{{task.name}}</span>
+  </div>
+<div *ngIf="selectedHero">
+  <h2>
+    {{selectedHero.name | uppercase}} is my hero
+  </h2>
+  <button (click)="gotoDetail()">View Details</button>
+</div>
+
+
+
+<div class="col-md-12">
+  <div class="row">
+    <hero-search></hero-search>
+  </div>
+</div>
+
+<div class="col-md-12">
+  <h4 class="task-label">Tasks</h4>
+</div>
+
+<div class="checkbox brdUp" id="task" *ngFor="let x of heroes" ng-repeat="x in $storage | filter:test" >
+  <label><input type="checkbox" value="" ng-change="change(this)" ng-model="someModel">{{ x }}</label>
+</div>
+<div class="col-10 done">
+  <button type="button" class="btn btn-success "ng-click="deleteElem()">Done <span class="badge">{{checked_number}}</span></button>
+</div>
