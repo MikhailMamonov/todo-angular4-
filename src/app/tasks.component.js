@@ -12,6 +12,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var task_service_1 = require("./task.service");
+var core_2 = require("@angular/core");
+var http_1 = require("@angular/http");
+var Observable_1 = require("rxjs/Observable");
+require("rxjs/add/operator/map");
+var Subject_1 = require("rxjs/Subject");
+var TaskSearchService = (function () {
+    function TaskSearchService(http) {
+        this.http = http;
+    }
+    TaskSearchService.prototype.search = function (term) {
+        return this.http
+            .get("api/tasks/?name=" + term)
+            .map(function (response) { return response.json().data; });
+    };
+    return TaskSearchService;
+}());
+TaskSearchService = __decorate([
+    core_2.Injectable(),
+    __metadata("design:paramtypes", [http_1.Http])
+], TaskSearchService);
+exports.TaskSearchService = TaskSearchService;
 var TasksComponent = (function () {
     function TasksComponent(taskService, router) {
         this.taskService = taskService;
@@ -49,8 +70,8 @@ var TasksComponent = (function () {
     TasksComponent.prototype.ngOnInit = function () {
         this.getTasks();
     };
-    TasksComponent.prototype.onSelect = function (hero) {
-        this.selectedTask = hero;
+    TasksComponent.prototype.onSelect = function (task) {
+        this.selectedTask = task;
     };
     TasksComponent.prototype.gotoDetail = function () {
         this.router.navigate(['/detail', this.selectedTask.id]);
@@ -67,4 +88,45 @@ TasksComponent = __decorate([
         router_1.Router])
 ], TasksComponent);
 exports.TasksComponent = TasksComponent;
+var TaskSearchComponent = (function () {
+    function TaskSearchComponent(taskSearchService, router) {
+        this.taskSearchService = taskSearchService;
+        this.router = router;
+        this.searchTerms = new Subject_1.Subject();
+    }
+    // Push a search term into the observable stream.
+    TaskSearchComponent.prototype.search = function (term) {
+        this.searchTerms.next(term);
+    };
+    TaskSearchComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.tasks = this.searchTerms
+            .debounceTime(300) // wait 300ms after each keystroke before considering the term
+            .distinctUntilChanged() // ignore if next search term is same as previous
+            .switchMap(function (term) { return term // switch to new observable each time the term changes
+            ? _this.taskSearchService.search(term)
+            : Observable_1.Observable.of([]); })
+            .catch(function (error) {
+            // TODO: add real error handling
+            console.log(error);
+            return Observable_1.Observable.of([]);
+        });
+    };
+    TaskSearchComponent.prototype.gotoDetail = function (task) {
+        var link = ['/detail', task.id];
+        this.router.navigate(link);
+    };
+    return TaskSearchComponent;
+}());
+TaskSearchComponent = __decorate([
+    core_1.Component({
+        selector: 'hero-search',
+        templateUrl: './task-search.component.html',
+        styleUrls: ['./task-search.component.css'],
+        providers: [TaskSearchService]
+    }),
+    __metadata("design:paramtypes", [TaskSearchService,
+        router_1.Router])
+], TaskSearchComponent);
+exports.TaskSearchComponent = TaskSearchComponent;
 //# sourceMappingURL=tasks.component.js.map

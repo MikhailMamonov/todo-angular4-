@@ -45,6 +45,14 @@ var TaskService = (function () {
             .then(function (res) { return res.json().data; })
             .catch(this.handleError);
     };
+    TaskService.prototype.update = function (task) {
+        var url = this.taskUrl + "/" + task.id;
+        return this.http
+            .put(url, JSON.stringify(task), { headers: this.headers })
+            .toPromise()
+            .then(function () { return task; })
+            .catch(this.handleError);
+    };
     TaskService.prototype.handleError = function (error) {
         console.error('An error occurred', error); // for demo purposes only
         return Promise.reject(error.message || error);

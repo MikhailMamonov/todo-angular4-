@@ -17,9 +17,9 @@ var in_memory_data_service_1 = require("./in-memory-data.service");
 var app_component_1 = require("./app.component");
 var dashboard_component_1 = require("./dashboard.component");
 var tasks_component_1 = require("./tasks.component");
-var hero_detail_component_1 = require("./hero-detail.component");
+var task_detail_component_1 = require("./task-detail.component");
 var task_service_1 = require("./task.service");
-var hero_search_component_1 = require("./hero-search.component");
+var task_search_component_1 = require("./task-search.component");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -37,11 +37,11 @@ AppModule = __decorate([
         declarations: [
             app_component_1.AppComponent,
             dashboard_component_1.DashboardComponent,
-            hero_detail_component_1.HeroDetailComponent,
-            tasks_component_1.HeroesComponent,
-            hero_search_component_1.HeroSearchComponent
+            task_detail_component_1.TaskDetailComponent,
+            tasks_component_1.TasksComponent,
+            task_search_component_1.TaskSearchComponent
         ],
-        providers: [task_service_1.HeroService],
+        providers: [task_service_1.TaskService],
         bootstrap: [app_component_1.AppComponent]
     })
 ], AppModule);

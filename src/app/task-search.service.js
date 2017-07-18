@@ -12,20 +12,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 require("rxjs/add/operator/map");
-var HeroSearchService = (function () {
-    function HeroSearchService(http) {
+var TaskSearchService = (function () {
+    function TaskSearchService(http) {
         this.http = http;
     }
-    HeroSearchService.prototype.search = function (term) {
+    TaskSearchService.prototype.search = function (term) {
         return this.http
-            .get("api/heroes/?name=" + term)
+            .get("api/tasks/?name=" + term)
             .map(function (response) { return response.json().data; });
     };
-    return HeroSearchService;
+    return TaskSearchService;
 }());
-HeroSearchService = __decorate([
+TaskSearchService = __decorate([
     core_1.Injectable(),
     __metadata("design:paramtypes", [http_1.Http])
-], HeroSearchService);
-exports.HeroSearchService = HeroSearchService;
-//# sourceMappingURL=hero-search.service.js.map
+], TaskSearchService);
+exports.TaskSearchService = TaskSearchService;
+//# sourceMappingURL=task-search.service.js.map

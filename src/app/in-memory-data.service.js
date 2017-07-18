@@ -4,7 +4,7 @@ var InMemoryDataService = (function () {
     function InMemoryDataService() {
     }
     InMemoryDataService.prototype.createDb = function () {
-        var heroes = [
+        var tasks = [
             { id: 0, name: 'Zero' },
             { id: 11, name: 'Mr. Nice' },
             { id: 12, name: 'Narco' },
@@ -17,7 +17,7 @@ var InMemoryDataService = (function () {
             { id: 19, name: 'Magma' },
             { id: 20, name: 'Tornado' }
         ];
-        return { heroes: heroes };
+        return { tasks: tasks };
     };
     return InMemoryDataService;
 }());

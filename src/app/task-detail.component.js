@@ -14,37 +14,37 @@ var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var common_1 = require("@angular/common");
 var task_service_1 = require("./task.service");
-var HeroDetailComponent = (function () {
-    function HeroDetailComponent(heroService, route, location) {
+var TaskDetailComponent = (function () {
+    function TaskDetailComponent(heroService, route, location) {
         this.heroService = heroService;
         this.route = route;
         this.location = location;
     }
-    HeroDetailComponent.prototype.ngOnInit = function () {
+    TaskDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.route.paramMap
-            .switchMap(function (params) { return _this.heroService.getHero(+params.get('id')); })
-            .subscribe(function (hero) { return _this.hero = hero; });
+            .switchMap(function (params) { return _this.heroService.getTask(+params.get('id')); })
+            .subscribe(function (hero) { return _this.task = hero; });
     };
-    HeroDetailComponent.prototype.save = function () {
+    TaskDetailComponent.prototype.save = function () {
         var _this = this;
-        this.heroService.update(this.hero)
+        this.heroService.update(this.task)
             .then(function () { return _this.goBack(); });
     };
-    HeroDetailComponent.prototype.goBack = function () {
+    TaskDetailComponent.prototype.goBack = function () {
         this.location.back();
     };
-    return HeroDetailComponent;
+    return TaskDetailComponent;
 }());
-HeroDetailComponent = __decorate([
+TaskDetailComponent = __decorate([
     core_1.Component({
         selector: 'hero-detail',
-        templateUrl: './hero-detail.component.html',
-        styleUrls: ['./hero-detail.component.css']
+        templateUrl: './task-detail.component.html',
+        styleUrls: ['./task-detail.component.css']
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof task_service_1.HeroService !== "undefined" && task_service_1.HeroService) === "function" && _a || Object, router_1.ActivatedRoute,
+    __metadata("design:paramtypes", [task_service_1.TaskService,
+        router_1.ActivatedRoute,
         common_1.Location])
-], HeroDetailComponent);
-exports.HeroDetailComponent = HeroDetailComponent;
-var _a;
-//# sourceMappingURL=hero-detail.component.js.map
+], TaskDetailComponent);
+exports.TaskDetailComponent = TaskDetailComponent;
+//# sourceMappingURL=task-detail.component.js.map
