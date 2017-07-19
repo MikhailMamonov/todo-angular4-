@@ -1,11 +1,32 @@
-<div *ngIf="hero">
-  <h2>{{hero.name}} details!</h2>
-  <div>
-    <label>id: </label>{{hero.id}}</div>
-  <div>
-    <label>name: </label>
-    <input [(ngModel)]="hero.name" placeholder="name" />
-   </div>
-  <button (click)="goBack()">Back</button>
-  <button (click)="save()">Save</button>
+<div class="row">
+  <div class="col-md-3">
+    <label for="example-text-input" class="col-2 col-form-label task-label">Task text</label>
+  </div>
+</div>
+<div class="col-10">
+  <input class="form-control" type="text"  value="" id="example-text-input" #taskName >
+</div>
+<div class="col-10"><p class="required"></p></div>
+<div class="row">
+  <div class="col-md-3">
+    <label for="example-datetime-local-input" class="col-2 col-form-label task-label">Reminder time</label>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-3">
+    <input class="form-control" type="date" value="2011-08-19" id="example-datetime-local-input">
+  </div>
+  <div class="col-sm-1 number">
+    <input class="form-control" type="text" value="20">
+  </div>
+  <div class="col-sm-1 number-separator">:</div>
+  <div class="col-sm-1 number">
+    <input class="form-control" type="text" value="20">
+  </div>
+</div>
+<div class="row task-label-buttons">
+  <div class="offset-sm-2 col-sm-10">
+    <button type="submit" class="btn btn-primary" (click)="goBack()">Cancel</button>
+    <button type="submit" class="btn btn-success" (click)="add(taskName.value)">Save</button>
+  </div>
 </div>

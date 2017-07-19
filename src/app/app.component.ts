@@ -2,8 +2,7 @@ import { Component }          from '@angular/core';
 
 @Component({
   selector: 'my-app',
-  template: `
-    <h1>{{title}}</h1>
+  template: `      
     <div class="container col-md-12" ng-app="myApp">
         <div class="col-md-1"></div>
         <div class="container col-md-10 brd" >
@@ -17,12 +16,11 @@ import { Component }          from '@angular/core';
                     </div>
                 </div>
                 <div class="col-md-1 bg-info text-blue my-icon">
-                    <a href="#!/view2" class="icon-link" id="myIcon"><span class="glyphicon glyphicon-plus-sign" ></span></a>
+                    <a href="/adding" class="icon-link" id="myIcon"><span class="glyphicon glyphicon-plus-sign" ></span></a>
                 </div>
             </div>
             <div ng-view></div>
             <br>
-
         </div>
     </div>
     <router-outlet></router-outlet>
@@ -30,5 +28,4 @@ import { Component }          from '@angular/core';
   styleUrls: ['./app.component.css', ]
 })
 export class AppComponent {
-  title = 'Tour of Heroes';
 }

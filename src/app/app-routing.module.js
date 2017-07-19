@@ -12,7 +12,7 @@ var tasks_component_1 = require("./tasks.component");
 var task_detail_component_1 = require("./task-detail.component");
 var routes = [
     { path: '', redirectTo: '/tasks', pathMatch: 'full' },
-    { path: 'task/:id', component: task_detail_component_1.TaskDetailComponent },
+    { path: 'adding', component: task_detail_component_1.TaskDetailComponent },
     { path: 'tasks', component: tasks_component_1.TasksComponent }
 ];
 var AppRoutingModule = (function () {

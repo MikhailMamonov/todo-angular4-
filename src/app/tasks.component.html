@@ -8,9 +8,9 @@
   <h4 class="task-label">Tasks</h4>
 </div>
 
-<div class="checkbox brdUp" id="task" *ngFor="let x of tasks | async "  [class.selected]="task=== selectedTask" >
-  <label><input type="checkbox" value="" ng-change="change(this)" ng-model="someModel">{{ x.name}}</label>
+<div class="checkbox brdUp" id="task" *ngFor="let x of tasks">
+  <label><input #checkbox type="checkbox" value="" (click)="onSelect(x, checkbox.checked)" [class.selected]="x === selectedTask" ng-model="someModel">{{ x.name}}</label>
 </div>
 <div class="col-10 done">
-  <button type="button" class="btn btn-success "ng-click="deleteElem()">Done <span class="badge">{{checked_number}}</span></button>
+  <button type="button" class="btn btn-success " (click)="delete()">Done <span class="badge">{{checked_number}}</span></button>
 </div>

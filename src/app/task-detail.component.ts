@@ -1,6 +1,6 @@
 import 'rxjs/add/operator/switchMap';
 import { Component, OnInit }        from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import { Location }                 from '@angular/common';
 
 import { Task }        from './task';
@@ -13,22 +13,37 @@ import { TaskService } from './task.service';
 })
 export class TaskDetailComponent implements OnInit {
   task: Task;
+  tasks: Task[];
+  selectedTask: Task;
 
   constructor(
-    private heroService: TaskService,
+    private taskService: TaskService,
     private route: ActivatedRoute,
+    private router: Router,
     private location: Location
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap
-      .switchMap((params: ParamMap) => this.heroService.getTask(+params.get('id')))
-      .subscribe(hero => this.task = hero);
+    // this.route.paramMap
+    //   .switchMap((params: ParamMap) => this.taskService.getTask(+params.get('id')))
+    //   .subscribe(hero => this.task = hero);
   }
 
   save(): void {
-    this.heroService.update(this.task)
-      .then(() => this.goBack());
+    // this.taskService.update(this.task)
+    //   .then(() => this.goBack());
+  }
+
+  add(name: string): void {
+    name = name.trim();
+    if (!name) { return; }
+    this.taskService.getInMemoryDataService().add(name);
+    this.selectedTask = null;
+    this.gotoTasks()
+  }
+
+  gotoTasks(): void {
+    this.router.navigate(['/tasks']);
   }
 
   goBack(): void {

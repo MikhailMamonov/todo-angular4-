@@ -12,13 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
 var task_service_1 = require("./task.service");
-var Observable_1 = require("rxjs/Observable");
 var Subject_1 = require("rxjs/Subject");
 var TasksComponent = (function () {
     function TasksComponent(taskService, router) {
         this.taskService = taskService;
         this.router = router;
         this.searchTerms = new Subject_1.Subject();
+        this.selectedTask = [];
     }
     // Push a search term into the observable stream.
     TasksComponent.prototype.search = function (term) {
@@ -31,28 +31,42 @@ var TasksComponent = (function () {
             .getTasks();
         console.log(this.tasks);
     };
+    TasksComponent.prototype.delete = function () {
+        for (var i = 0; i < this.selectedTask.length; i++) {
+            this.taskService
+                .delete(this.selectedTask[i].id);
+        }
+        this.gotoTasks();
+    };
     TasksComponent.prototype.ngOnInit = function () {
-        var _this = this;
         this.getTasks();
         console.log(this.tasks);
-        this.tasks = this.searchTerms
-            .debounceTime(300) // wait 300ms after each keystroke before considering the term
-            .distinctUntilChanged() // ignore if next search term is same as previous
-            .switchMap(function (term) { return term // switch to new observable each time the term changes
-            ? _this.taskService.search(term)
-            : Observable_1.Observable.of([]); })
-            .catch(function (error) {
-            // TODO: add real error handling
-            console.log(error);
-            return Observable_1.Observable.of([]);
-        });
+        // this.tasks = this.searchTerms
+        //     .debounceTime(300)        // wait 300ms after each keystroke before considering the term
+        //     .distinctUntilChanged()   // ignore if next search term is same as previous
+        //     .switchMap(term => term   // switch to new observable each time the term changes
+        //         // return the http search observable
+        //         ? this.taskService.search(term)
+        //         // or the observable of empty heroes if there was no search term
+        //         : Observable.of<Task[]>([]))
+        //     .catch(error => {
+        //       // TODO: add real error handling
+        //       console.log(error);
+        //       return Observable.of<Task[]>([]);
+        //     });
         console.log(this.tasks);
     };
-    TasksComponent.prototype.onSelect = function (task) {
-        this.selectedTask = task;
+    TasksComponent.prototype.onSelect = function (task, checked) {
+        if (checked == true)
+            this.selectedTask.push(task);
+        else
+            for (var i = 0; i < this.selectedTask.length; i++) {
+                if (this.selectedTask[i].id == task.id)
+                    this.selectedTask.splice(i, 1);
+            }
     };
-    TasksComponent.prototype.gotoDetail = function () {
-        this.router.navigate(['/detail', this.selectedTask.id]);
+    TasksComponent.prototype.gotoTasks = function () {
+        this.router.navigate(['/tasks']);
     };
     return TasksComponent;
 }());

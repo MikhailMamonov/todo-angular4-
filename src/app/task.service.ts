@@ -15,52 +15,57 @@ export class TaskService {
   private taskUrl = 'tasks';  // URL to web api
   private inMemoryDataService= new InMemoryDataService();
   //private tasks = Observable.of<Task[]>(this.inMemoryDataService.createDb());
-  constructor(private http: Http) { console.log(Observable.of<Task[]>(this.inMemoryDataService.createDb())); }
-  getTasks(): Observable<Task[]> {
-    return Observable.of<Task[]>(this.inMemoryDataService.createDb());
+  constructor() { console.log(Observable.of<Task[]>(this.inMemoryDataService.getDb())); }
+  getTasks(): Task[] {
+    return this.inMemoryDataService.getDb();
   }
 
-
-  getTask(id: number): Promise<Task> {
-    const url = `${this.taskUrl}/${id}`;
-    return this.http.get(url)
-      .toPromise()
-      .then(response => response.json().data as Task)
-      .catch(this.handleError);
-  }
-
-  delete(id: number): Promise<void> {
-    const url = `${this.taskUrl}/${id}`;
-    return this.http.delete(url, {headers: this.headers})
-      .toPromise()
-      .then(() => null)
-      .catch(this.handleError);
-  }
-
-  create(name: string): Promise<Task> {
-    return this.http
-        .post(this.taskUrl, JSON.stringify({name: name}), {headers: this.headers})
-        .toPromise()
-        .then(res => res.json().data as Task)
-        .catch(this.handleError);
-  }
-  update(task: Task): Promise<Task> {
-    const url = `${this.taskUrl}/${task.id}`;
-    return this.http
-        .put(url, JSON.stringify(task), {headers: this.headers})
-        .toPromise()
-        .then(() => task)
-        .catch(this.handleError);
-  }
+  getInMemoryDataService():InMemoryDataService{return this.inMemoryDataService;}
+  // getTask(id: number): Promise<Task> {
+  //   const url = `${this.taskUrl}/${id}`;
+  //   return this.http.get(url)
+  //     .toPromise()
+  //     .then(response => response.json().data as Task)
+  //     .catch(this.handleError);
+  // }
+  //
+  // delete(id: number): Promise<void> {
+  //   const url = `${this.taskUrl}/${id}`;
+  //   return this.http.delete(url, {headers: this.headers})
+  //     .toPromise()
+  //     .then(() => null)
+  //     .catch(this.handleError);
+  // }
+  //
+  // create(name: string): Promise<Task> {
+  //   return this.http
+  //       .post(this.taskUrl, JSON.stringify({name: name}), {headers: this.headers})
+  //       .toPromise()
+  //       .then(res => res.json().data as Task)
+  //       .catch(this.handleError);
+  // }
+  // update(task: Task): Promise<Task> {
+  //   const url = `${this.taskUrl}/${task.id}`;
+  //   return this.http
+  //       .put(url, JSON.stringify(task), {headers: this.headers})
+  //       .toPromise()
+  //       .then(() => task)
+  //       .catch(this.handleError);
+  // }
   search(term: string): Observable<Task[]> {
     console.log("ya tut");
-    return Observable.of<Task[]>(this.inMemoryDataService.createDb().filter( function IsC(value) {
+    return Observable.of<Task[]>(this.inMemoryDataService.getDb().filter( function IsC(value) {
       var firstChar = value.name.substr(0, term.length);
       if (firstChar.toLowerCase() == term)
         return true;
       else {return false;}
     }));
   }
+
+  delete(id: number): void {
+    this.inMemoryDataService.delete(id);
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);

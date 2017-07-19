@@ -13,13 +13,13 @@ import { Subject }           from 'rxjs/Subject';
   styleUrls: [ './tasks.component.css' ]
 })
 export class TasksComponent implements OnInit {
-  tasks: Observable<Task[]>;
-  selectedTask: Task;
+  tasks: Task[];
+  selectedTask: Task[];
   private searchTerms = new Subject<string>();
 
   constructor(
       private taskService: TaskService,
-      private router: Router) { }
+      private router: Router) {this.selectedTask=[]; }
 
   // Push a search term into the observable stream.
   search(term: string): void {
@@ -33,30 +33,47 @@ export class TasksComponent implements OnInit {
         console.log(this.tasks);
   }
 
+  delete(): void {
+    for ( var i = 0; i < this.selectedTask.length; i++){
+      this.taskService
+          .delete(this.selectedTask[i].id);
+    }
+    this.gotoTasks()
+  }
+
+
   ngOnInit(): void {
     this.getTasks()
     console.log(this.tasks);
-    this.tasks = this.searchTerms
-        .debounceTime(300)        // wait 300ms after each keystroke before considering the term
-        .distinctUntilChanged()   // ignore if next search term is same as previous
-        .switchMap(term => term   // switch to new observable each time the term changes
-            // return the http search observable
-            ? this.taskService.search(term)
-            // or the observable of empty heroes if there was no search term
-            : Observable.of<Task[]>([]))
-        .catch(error => {
-          // TODO: add real error handling
-          console.log(error);
-          return Observable.of<Task[]>([]);
-        });
+    // this.tasks = this.searchTerms
+    //     .debounceTime(300)        // wait 300ms after each keystroke before considering the term
+    //     .distinctUntilChanged()   // ignore if next search term is same as previous
+    //     .switchMap(term => term   // switch to new observable each time the term changes
+    //         // return the http search observable
+    //         ? this.taskService.search(term)
+    //         // or the observable of empty heroes if there was no search term
+    //         : Observable.of<Task[]>([]))
+    //     .catch(error => {
+    //       // TODO: add real error handling
+    //       console.log(error);
+    //       return Observable.of<Task[]>([]);
+    //     });
     console.log(this.tasks);
   }
 
-  onSelect(task: Task): void {
-    this.selectedTask = task;
+  onSelect(task: Task, checked:boolean): void {
+    if(checked==true)
+      this.selectedTask.push(task);
+    else
+      for ( var i = 0; i < this.selectedTask.length; i++){
+        if(this.selectedTask[i].id==task.id)
+          this.selectedTask.splice(i, 1);
+      }
   }
 
-  gotoDetail(): void {
-    this.router.navigate(['/detail', this.selectedTask.id]);
+  gotoTasks(): void {
+    this.router.navigate(['/tasks']);
   }
+
+
 }

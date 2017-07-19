@@ -16,48 +16,50 @@ var Observable_1 = require("rxjs/Observable");
 var in_memory_data_service_1 = require("./in-memory-data.service");
 var TaskService = (function () {
     //private tasks = Observable.of<Task[]>(this.inMemoryDataService.createDb());
-    function TaskService(http) {
-        this.http = http;
+    function TaskService() {
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.taskUrl = 'tasks'; // URL to web api
         this.inMemoryDataService = new in_memory_data_service_1.InMemoryDataService();
-        console.log(Observable_1.Observable.of(this.inMemoryDataService.createDb()));
+        console.log(Observable_1.Observable.of(this.inMemoryDataService.getDb()));
     }
     TaskService.prototype.getTasks = function () {
-        return Observable_1.Observable.of(this.inMemoryDataService.createDb());
+        return this.inMemoryDataService.getDb();
     };
-    TaskService.prototype.getTask = function (id) {
-        var url = this.taskUrl + "/" + id;
-        return this.http.get(url)
-            .toPromise()
-            .then(function (response) { return response.json().data; })
-            .catch(this.handleError);
-    };
-    TaskService.prototype.delete = function (id) {
-        var url = this.taskUrl + "/" + id;
-        return this.http.delete(url, { headers: this.headers })
-            .toPromise()
-            .then(function () { return null; })
-            .catch(this.handleError);
-    };
-    TaskService.prototype.create = function (name) {
-        return this.http
-            .post(this.taskUrl, JSON.stringify({ name: name }), { headers: this.headers })
-            .toPromise()
-            .then(function (res) { return res.json().data; })
-            .catch(this.handleError);
-    };
-    TaskService.prototype.update = function (task) {
-        var url = this.taskUrl + "/" + task.id;
-        return this.http
-            .put(url, JSON.stringify(task), { headers: this.headers })
-            .toPromise()
-            .then(function () { return task; })
-            .catch(this.handleError);
-    };
+    TaskService.prototype.getInMemoryDataService = function () { return this.inMemoryDataService; };
+    // getTask(id: number): Promise<Task> {
+    //   const url = `${this.taskUrl}/${id}`;
+    //   return this.http.get(url)
+    //     .toPromise()
+    //     .then(response => response.json().data as Task)
+    //     .catch(this.handleError);
+    // }
+    //
+    // delete(id: number): Promise<void> {
+    //   const url = `${this.taskUrl}/${id}`;
+    //   return this.http.delete(url, {headers: this.headers})
+    //     .toPromise()
+    //     .then(() => null)
+    //     .catch(this.handleError);
+    // }
+    //
+    // create(name: string): Promise<Task> {
+    //   return this.http
+    //       .post(this.taskUrl, JSON.stringify({name: name}), {headers: this.headers})
+    //       .toPromise()
+    //       .then(res => res.json().data as Task)
+    //       .catch(this.handleError);
+    // }
+    // update(task: Task): Promise<Task> {
+    //   const url = `${this.taskUrl}/${task.id}`;
+    //   return this.http
+    //       .put(url, JSON.stringify(task), {headers: this.headers})
+    //       .toPromise()
+    //       .then(() => task)
+    //       .catch(this.handleError);
+    // }
     TaskService.prototype.search = function (term) {
         console.log("ya tut");
-        return Observable_1.Observable.of(this.inMemoryDataService.createDb().filter(function IsC(value) {
+        return Observable_1.Observable.of(this.inMemoryDataService.getDb().filter(function IsC(value) {
             var firstChar = value.name.substr(0, term.length);
             if (firstChar.toLowerCase() == term)
                 return true;
@@ -65,6 +67,9 @@ var TaskService = (function () {
                 return false;
             }
         }));
+    };
+    TaskService.prototype.delete = function (id) {
+        this.inMemoryDataService.delete(id);
     };
     TaskService.prototype.handleError = function (error) {
         console.error('An error occurred', error); // for demo purposes only
@@ -74,7 +79,7 @@ var TaskService = (function () {
 }());
 TaskService = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [http_1.Http])
+    __metadata("design:paramtypes", [])
 ], TaskService);
 exports.TaskService = TaskService;
 //# sourceMappingURL=task.service.js.map

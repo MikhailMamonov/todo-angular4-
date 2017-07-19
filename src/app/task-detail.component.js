@@ -15,21 +15,32 @@ var router_1 = require("@angular/router");
 var common_1 = require("@angular/common");
 var task_service_1 = require("./task.service");
 var TaskDetailComponent = (function () {
-    function TaskDetailComponent(heroService, route, location) {
-        this.heroService = heroService;
+    function TaskDetailComponent(taskService, route, router, location) {
+        this.taskService = taskService;
         this.route = route;
+        this.router = router;
         this.location = location;
     }
     TaskDetailComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        this.route.paramMap
-            .switchMap(function (params) { return _this.heroService.getTask(+params.get('id')); })
-            .subscribe(function (hero) { return _this.task = hero; });
+        // this.route.paramMap
+        //   .switchMap((params: ParamMap) => this.taskService.getTask(+params.get('id')))
+        //   .subscribe(hero => this.task = hero);
     };
     TaskDetailComponent.prototype.save = function () {
-        var _this = this;
-        this.heroService.update(this.task)
-            .then(function () { return _this.goBack(); });
+        // this.taskService.update(this.task)
+        //   .then(() => this.goBack());
+    };
+    TaskDetailComponent.prototype.add = function (name) {
+        name = name.trim();
+        if (!name) {
+            return;
+        }
+        this.taskService.getInMemoryDataService().add(name);
+        this.selectedTask = null;
+        this.gotoTasks();
+    };
+    TaskDetailComponent.prototype.gotoTasks = function () {
+        this.router.navigate(['/tasks']);
     };
     TaskDetailComponent.prototype.goBack = function () {
         this.location.back();
@@ -44,6 +55,7 @@ TaskDetailComponent = __decorate([
     }),
     __metadata("design:paramtypes", [task_service_1.TaskService,
         router_1.ActivatedRoute,
+        router_1.Router,
         common_1.Location])
 ], TaskDetailComponent);
 exports.TaskDetailComponent = TaskDetailComponent;
