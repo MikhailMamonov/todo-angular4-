@@ -1,7 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var task_1 = require("./task");
+var collection_1 = require("@angular/router/src/utils/collection");
+require("rxjs/add/operator/add");
 var InMemoryDataService = (function () {
-    function InMemoryDataService() {
+    function InMemoryDataService(task) {
+        this.task = task;
     }
     InMemoryDataService.prototype.createDb = function () {
         var tasks = [
@@ -17,6 +21,12 @@ var InMemoryDataService = (function () {
             { id: 19, name: 'Magma' },
             { id: 20, name: 'Tornado' }
         ];
+        collection_1.forEach();
+        var i;
+         in tasks;
+        {
+            this.task.add(new task_1.Task(i.id, i.name));
+        }
         return { tasks: tasks };
     };
     return InMemoryDataService;

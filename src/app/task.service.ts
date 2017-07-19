@@ -4,20 +4,21 @@ import { Headers, Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { Task } from './task';
+import { Observable }        from 'rxjs/Observable';
+import {InMemoryDataService} from "./in-memory-data.service";
+
+
 
 @Injectable()
 export class TaskService {
-
+  private tasks: Observable<Task[]>;
   private headers = new Headers({'Content-Type': 'application/json'});
-  private taskUrl = 'api/tasks';  // URL to web api
+  private taskUrl = 'tasks';  // URL to web api
+  constructor( public inMemoryDataService: InMemoryDataService,private http: Http) { }
 
-  constructor(private http: Http) { }
-
-  getTasks(): Promise<Task[]> {
-    return this.http.get(this.taskUrl)
-               .toPromise()
-               .then(response => response.json().data as Task[])
-               .catch(this.handleError);
+  getTasks(): Promise<Observable<Task[]>> {
+    console.log("popal")
+    return this.tasks= this.inMemoryDataService.createDb();
   }
 
 
@@ -52,7 +53,11 @@ export class TaskService {
         .then(() => task)
         .catch(this.handleError);
   }
-
+  search(term: string): Observable<Task[]> {
+    return this.http
+        .get(`api/tasks/?name=${term}`)
+        .map(response => response.json().data as Task[]);
+  }
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);

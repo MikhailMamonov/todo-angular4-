@@ -1,35 +1,6 @@
 <div class="col-md-12">
   <div class="row">
-    <p><input type="text" class="form-control" placeholder="Search" (keyup)="search(searchBox.value)" ></p>
-  </div>
-</div>
-<h2>My Heroes</h2>
-<div>
-  <label>Task name:</label> <input #heroName />
-  <button (click)="add(heroName.value); heroName.value=''">
-    Add
-  </button>
-</div>
-
-<hero-search></hero-search>
-
-  <div class="checkbox brdUp" id="task" *ngFor="let task of tasks" (click)="onSelect(task)">
-    <label><input type="checkbox" value=""  ng-model="someModel">{{ task.name }}</label>
-    <span class="badge">{{task.id}}</span>
-    <span>{{task.name}}</span>
-  </div>
-<div *ngIf="selectedTask">
-  <h2>
-    {{selectedTask.name | uppercase}} is my task
-  </h2>
-  <button (click)="gotoDetail()">View Details</button>
-</div>
-
-
-
-<div class="col-md-12">
-  <div class="row">
-    <hero-search></hero-search>
+    <p><input #searchBox id="search-box" type="text" class="form-control"  placeholder="Search" (keyup)="search(searchBox.value)" ></p>
   </div>
 </div>
 
@@ -37,7 +8,7 @@
   <h4 class="task-label">Tasks</h4>
 </div>
 
-<div class="checkbox brdUp" id="task" *ngFor="let x of tasks "  [class.selected]="task=== selectedTask" >
+<div class="checkbox brdUp" id="task" *ngFor="let x of tasks | async "  [class.selected]="task=== selectedTask" >
   <label><input type="checkbox" value="" ng-change="change(this)" ng-model="someModel">{{ x.name}}</label>
 </div>
 <div class="col-10 done">
