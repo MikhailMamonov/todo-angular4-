@@ -10,7 +10,6 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { InMemoryDataService }  from './in-memory-data.service';
 
 import { AppComponent }         from './app.component';
-import { DashboardComponent }   from './dashboard.component';
 import { TasksComponent }      from './tasks.component';
 import { TaskDetailComponent }  from './task-detail.component';
 import { TaskService }          from './task.service';
@@ -26,7 +25,6 @@ import { TaskSearchComponent}  from './task-search.component';
   ],
   declarations: [
     AppComponent,
-    DashboardComponent,
     TaskDetailComponent,
     TasksComponent,
     TaskSearchComponent

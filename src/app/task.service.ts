@@ -5,20 +5,18 @@ import 'rxjs/add/operator/toPromise';
 
 import { Task } from './task';
 import { Observable }        from 'rxjs/Observable';
-import {InMemoryDataService} from "./in-memory-data.service";
+import {InMemoryDataService}     from './in-memory-data.service';
 
 
 
 @Injectable()
 export class TaskService {
-  private tasks: Observable<Task[]>;
   private headers = new Headers({'Content-Type': 'application/json'});
   private taskUrl = 'tasks';  // URL to web api
-  constructor( public inMemoryDataService: InMemoryDataService,private http: Http) { }
-
+  private inMemoryDataService= new InMemoryDataService([], Observable.of<Task[]>([]));
+  constructor(private http: Http) { }
   getTasks(): Promise<Observable<Task[]>> {
-    console.log("popal")
-    return this.tasks= this.inMemoryDataService.createDb();
+    return Promise.resolve(this.inMemoryDataService.createDb());
   }
 
 

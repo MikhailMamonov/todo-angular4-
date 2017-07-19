@@ -1,11 +1,10 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import {Observable} from "rxjs/Observable";
-import {Task} from "./task";
-import {forEach} from "@angular/router/src/utils/collection";
-import 'rxjs/add/operator/add';
+import { Observable }        from 'rxjs/Observable';
+import { Task }        from './task';
 export class InMemoryDataService implements InMemoryDbService {
-  constructor( public task: Observable< Task [] > ) { }
-  createDb() {
+  constructor(public tmp: Task[], public task: Observable< Task [] > ) { }
+  createDb(): Observable<Task[]> {
+    this.task = Observable.of<Task[]>([]);
     const tasks = [
       { id: 0,  name: 'Zero' },
       { id: 11, name: 'Mr. Nice' },
@@ -19,9 +18,10 @@ export class InMemoryDataService implements InMemoryDbService {
       { id: 19, name: 'Magma' },
       { id: 20, name: 'Tornado' }
     ];
-    forEach(var i in tasks){
-      this.task.add(new Task(i.id,i.name));
+    console.log(tasks);
+    for ( var i = 0; i < tasks.length; i++){
+      this.tmp.push(new Task(tasks[i].id, tasks[i].name));
     }
-    return {tasks};
+    return Observable.of<Task[]>(this.tmp);
   }
 }

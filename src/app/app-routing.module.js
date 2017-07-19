@@ -8,12 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var router_1 = require("@angular/router");
-var dashboard_component_1 = require("./dashboard.component");
 var tasks_component_1 = require("./tasks.component");
 var task_detail_component_1 = require("./task-detail.component");
 var routes = [
     { path: '', redirectTo: '/tasks', pathMatch: 'full' },
-    { path: 'main', component: dashboard_component_1.DashboardComponent },
     { path: 'task/:id', component: task_detail_component_1.TaskDetailComponent },
     { path: 'tasks', component: tasks_component_1.TasksComponent }
 ];

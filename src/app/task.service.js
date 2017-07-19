@@ -12,17 +12,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
 var http_1 = require("@angular/http");
 require("rxjs/add/operator/toPromise");
+var Observable_1 = require("rxjs/Observable");
 var in_memory_data_service_1 = require("./in-memory-data.service");
 var TaskService = (function () {
-    function TaskService(inMemoryDataService, http) {
-        this.inMemoryDataService = inMemoryDataService;
+    function TaskService(http) {
         this.http = http;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.taskUrl = 'tasks'; // URL to web api
+        this.inMemoryDataService = new in_memory_data_service_1.InMemoryDataService([], Observable_1.Observable.of([]));
     }
     TaskService.prototype.getTasks = function () {
-        console.log("popal");
-        return this.tasks = this.inMemoryDataService.createDb();
+        return Promise.resolve(this.inMemoryDataService.createDb());
     };
     TaskService.prototype.getTask = function (id) {
         var url = this.taskUrl + "/" + id;
@@ -66,7 +66,7 @@ var TaskService = (function () {
 }());
 TaskService = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [in_memory_data_service_1.InMemoryDataService, http_1.Http])
+    __metadata("design:paramtypes", [http_1.Http])
 ], TaskService);
 exports.TaskService = TaskService;
 //# sourceMappingURL=task.service.js.map

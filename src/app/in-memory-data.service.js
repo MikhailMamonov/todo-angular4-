@@ -1,13 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var Observable_1 = require("rxjs/Observable");
 var task_1 = require("./task");
-var collection_1 = require("@angular/router/src/utils/collection");
-require("rxjs/add/operator/add");
 var InMemoryDataService = (function () {
-    function InMemoryDataService(task) {
+    function InMemoryDataService(tmp, task) {
+        this.tmp = tmp;
         this.task = task;
     }
     InMemoryDataService.prototype.createDb = function () {
+        this.task = Observable_1.Observable.of([]);
         var tasks = [
             { id: 0, name: 'Zero' },
             { id: 11, name: 'Mr. Nice' },
@@ -21,13 +22,11 @@ var InMemoryDataService = (function () {
             { id: 19, name: 'Magma' },
             { id: 20, name: 'Tornado' }
         ];
-        collection_1.forEach();
-        var i;
-         in tasks;
-        {
-            this.task.add(new task_1.Task(i.id, i.name));
+        console.log(tasks);
+        for (var i = 0; i < tasks.length; i++) {
+            this.tmp.push(new task_1.Task(tasks[i].id, tasks[i].name));
         }
-        return { tasks: tasks };
+        return Observable_1.Observable.of(this.tmp);
     };
     return InMemoryDataService;
 }());
