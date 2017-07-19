@@ -13,10 +13,11 @@ import {InMemoryDataService}     from './in-memory-data.service';
 export class TaskService {
   private headers = new Headers({'Content-Type': 'application/json'});
   private taskUrl = 'tasks';  // URL to web api
-  private inMemoryDataService= new InMemoryDataService([], Observable.of<Task[]>([]));
-  constructor(private http: Http) { }
-  getTasks(): Promise<Observable<Task[]>> {
-    return Promise.resolve(this.inMemoryDataService.createDb());
+  private inMemoryDataService= new InMemoryDataService();
+  //private tasks = Observable.of<Task[]>(this.inMemoryDataService.createDb());
+  constructor(private http: Http) { console.log(Observable.of<Task[]>(this.inMemoryDataService.createDb())); }
+  getTasks(): Observable<Task[]> {
+    return Observable.of<Task[]>(this.inMemoryDataService.createDb());
   }
 
 
@@ -52,9 +53,13 @@ export class TaskService {
         .catch(this.handleError);
   }
   search(term: string): Observable<Task[]> {
-    return this.http
-        .get(`api/tasks/?name=${term}`)
-        .map(response => response.json().data as Task[]);
+    console.log("ya tut");
+    return Observable.of<Task[]>(this.inMemoryDataService.createDb().filter( function IsC(value) {
+      var firstChar = value.name.substr(0, term.length);
+      if (firstChar.toLowerCase() == term)
+        return true;
+      else {return false;}
+    }));
   }
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only

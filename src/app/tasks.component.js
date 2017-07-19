@@ -22,31 +22,15 @@ var TasksComponent = (function () {
     }
     // Push a search term into the observable stream.
     TasksComponent.prototype.search = function (term) {
+        console.log(term);
         this.searchTerms.next(term);
     };
     TasksComponent.prototype.getTasks = function () {
-        var _this = this;
-        this.taskService
-            .getTasks()
-            .then(function (tasks) { return _this.tasks = tasks; });
+        console.log(this.tasks);
+        this.tasks = this.taskService
+            .getTasks();
+        console.log(this.tasks);
     };
-    // add(name: string): void {
-    //   name = name.trim();
-    //   if (!name) { return; }
-    //   this.taskService.create(name)
-    //       .then(task => {
-    //         this.tasks.push(task);
-    //         this.selectedTask = null;
-    //       });
-    // }
-    // delete(task: Task): void {
-    //   this.taskService
-    //       .delete(task.id)
-    //       .then(() => {
-    //         this.tasks = this.tasks.filter(h => h !== task);
-    //         if (this.selectedTask === task) { this.selectedTask = null; }
-    //       });
-    // }
     TasksComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.getTasks();
@@ -62,6 +46,7 @@ var TasksComponent = (function () {
             console.log(error);
             return Observable_1.Observable.of([]);
         });
+        console.log(this.tasks);
     };
     TasksComponent.prototype.onSelect = function (task) {
         this.selectedTask = task;

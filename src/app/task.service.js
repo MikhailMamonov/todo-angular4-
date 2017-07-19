@@ -15,14 +15,16 @@ require("rxjs/add/operator/toPromise");
 var Observable_1 = require("rxjs/Observable");
 var in_memory_data_service_1 = require("./in-memory-data.service");
 var TaskService = (function () {
+    //private tasks = Observable.of<Task[]>(this.inMemoryDataService.createDb());
     function TaskService(http) {
         this.http = http;
         this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         this.taskUrl = 'tasks'; // URL to web api
-        this.inMemoryDataService = new in_memory_data_service_1.InMemoryDataService([], Observable_1.Observable.of([]));
+        this.inMemoryDataService = new in_memory_data_service_1.InMemoryDataService();
+        console.log(Observable_1.Observable.of(this.inMemoryDataService.createDb()));
     }
     TaskService.prototype.getTasks = function () {
-        return Promise.resolve(this.inMemoryDataService.createDb());
+        return Observable_1.Observable.of(this.inMemoryDataService.createDb());
     };
     TaskService.prototype.getTask = function (id) {
         var url = this.taskUrl + "/" + id;
@@ -54,9 +56,15 @@ var TaskService = (function () {
             .catch(this.handleError);
     };
     TaskService.prototype.search = function (term) {
-        return this.http
-            .get("api/tasks/?name=" + term)
-            .map(function (response) { return response.json().data; });
+        console.log("ya tut");
+        return Observable_1.Observable.of(this.inMemoryDataService.createDb().filter(function IsC(value) {
+            var firstChar = value.name.substr(0, term.length);
+            if (firstChar.toLowerCase() == term)
+                return true;
+            else {
+                return false;
+            }
+        }));
     };
     TaskService.prototype.handleError = function (error) {
         console.error('An error occurred', error); // for demo purposes only

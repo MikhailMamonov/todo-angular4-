@@ -2,9 +2,12 @@ import { InMemoryDbService } from 'angular-in-memory-web-api';
 import { Observable }        from 'rxjs/Observable';
 import { Task }        from './task';
 export class InMemoryDataService implements InMemoryDbService {
-  constructor(public tmp: Task[], public task: Observable< Task [] > ) { }
-  createDb(): Observable<Task[]> {
-    this.task = Observable.of<Task[]>([]);
+  private tmp: Task[];
+  private task: Observable<Task[]>
+  constructor() { }
+  createDb(): Task[] {
+     this.task = Observable.of<Task[]>([]);
+     this.tmp = [];
     const tasks = [
       { id: 0,  name: 'Zero' },
       { id: 11, name: 'Mr. Nice' },
@@ -18,10 +21,10 @@ export class InMemoryDataService implements InMemoryDbService {
       { id: 19, name: 'Magma' },
       { id: 20, name: 'Tornado' }
     ];
-    console.log(tasks);
+    console.log(this.tmp);
     for ( var i = 0; i < tasks.length; i++){
       this.tmp.push(new Task(tasks[i].id, tasks[i].name));
     }
-    return Observable.of<Task[]>(this.tmp);
+    return this.tmp;
   }
 }

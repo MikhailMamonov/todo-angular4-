@@ -3,12 +3,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Observable_1 = require("rxjs/Observable");
 var task_1 = require("./task");
 var InMemoryDataService = (function () {
-    function InMemoryDataService(tmp, task) {
-        this.tmp = tmp;
-        this.task = task;
+    function InMemoryDataService() {
     }
     InMemoryDataService.prototype.createDb = function () {
         this.task = Observable_1.Observable.of([]);
+        this.tmp = [];
         var tasks = [
             { id: 0, name: 'Zero' },
             { id: 11, name: 'Mr. Nice' },
@@ -22,11 +21,11 @@ var InMemoryDataService = (function () {
             { id: 19, name: 'Magma' },
             { id: 20, name: 'Tornado' }
         ];
-        console.log(tasks);
+        console.log(this.tmp);
         for (var i = 0; i < tasks.length; i++) {
             this.tmp.push(new task_1.Task(tasks[i].id, tasks[i].name));
         }
-        return Observable_1.Observable.of(this.tmp);
+        return this.tmp;
     };
     return InMemoryDataService;
 }());

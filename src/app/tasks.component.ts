@@ -23,35 +23,18 @@ export class TasksComponent implements OnInit {
 
   // Push a search term into the observable stream.
   search(term: string): void {
+    console.log(term);
     this.searchTerms.next(term);
   }
   getTasks(): void {
-    this.taskService
-        .getTasks()
-        .then(tasks => this.tasks = tasks);
+    console.log(this.tasks);
+    this.tasks = this.taskService
+        .getTasks();
+        console.log(this.tasks);
   }
 
-  // add(name: string): void {
-  //   name = name.trim();
-  //   if (!name) { return; }
-  //   this.taskService.create(name)
-  //       .then(task => {
-  //         this.tasks.push(task);
-  //         this.selectedTask = null;
-  //       });
-  // }
-
-  // delete(task: Task): void {
-  //   this.taskService
-  //       .delete(task.id)
-  //       .then(() => {
-  //         this.tasks = this.tasks.filter(h => h !== task);
-  //         if (this.selectedTask === task) { this.selectedTask = null; }
-  //       });
-  // }
-
   ngOnInit(): void {
-    this.getTasks();
+    this.getTasks()
     console.log(this.tasks);
     this.tasks = this.searchTerms
         .debounceTime(300)        // wait 300ms after each keystroke before considering the term
@@ -66,6 +49,7 @@ export class TasksComponent implements OnInit {
           console.log(error);
           return Observable.of<Task[]>([]);
         });
+    console.log(this.tasks);
   }
 
   onSelect(task: Task): void {
