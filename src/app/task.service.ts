@@ -6,15 +6,25 @@ import 'rxjs/add/operator/toPromise';
 import { Task } from './task';
 import { Observable }        from 'rxjs/Observable';
 import {InMemoryDataService}     from './in-memory-data.service';
+import { LocalStorageService } from 'angular-2-local-storage';
 
 
 @Injectable()
 export class TaskService {
-
+  tasks : Task[];
   //private tasks = Observable.of<Task[]>(this.inMemoryDataService.createDb());
-  constructor(private inMemoryDataService: InMemoryDataService) { console.log('create service'); }
+  constructor(private inMemoryDataService: InMemoryDataService,  private localStorageService: LocalStorageService)
+  { console.log('create service'); }
   getTasks(): Task[] {
-    return this.inMemoryDataService.getDb();
+    if(this.tasks){return this.tasks}
+    else {
+      this.tasks=[];
+      this.tasks=this.inMemoryDataService.getDb();
+      this.localStorageService.set('tasks', JSON.stringify(this.tasks));
+      console.log(this.localStorageService.get('tasks'));
+      console.log(this.tasks)
+    }
+    return this.tasks;
   }
 
 

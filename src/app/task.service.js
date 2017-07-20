@@ -13,14 +13,26 @@ var core_1 = require("@angular/core");
 require("rxjs/add/operator/toPromise");
 var Observable_1 = require("rxjs/Observable");
 var in_memory_data_service_1 = require("./in-memory-data.service");
+var angular_2_local_storage_1 = require("angular-2-local-storage");
 var TaskService = (function () {
     //private tasks = Observable.of<Task[]>(this.inMemoryDataService.createDb());
-    function TaskService(inMemoryDataService) {
+    function TaskService(inMemoryDataService, localStorageService) {
         this.inMemoryDataService = inMemoryDataService;
+        this.localStorageService = localStorageService;
         console.log('create service');
     }
     TaskService.prototype.getTasks = function () {
-        return this.inMemoryDataService.getDb();
+        if (this.tasks) {
+            return this.tasks;
+        }
+        else {
+            this.tasks = [];
+            this.tasks = this.inMemoryDataService.getDb();
+            this.localStorageService.set('tasks', JSON.stringify(this.tasks));
+            console.log(this.localStorageService.get('tasks'));
+            console.log(this.tasks);
+        }
+        return this.tasks;
     };
     TaskService.prototype.getInMemoryDataService = function () { return this.inMemoryDataService; };
     // getTask(id: number): Promise<Task> {
@@ -79,7 +91,7 @@ var TaskService = (function () {
 }());
 TaskService = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [in_memory_data_service_1.InMemoryDataService])
+    __metadata("design:paramtypes", [in_memory_data_service_1.InMemoryDataService, angular_2_local_storage_1.LocalStorageService])
 ], TaskService);
 exports.TaskService = TaskService;
 //# sourceMappingURL=task.service.js.map

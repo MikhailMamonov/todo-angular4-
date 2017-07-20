@@ -14,10 +14,16 @@ import { TasksComponent }      from './tasks.component';
 import { TaskDetailComponent }  from './task-detail.component';
 import { TaskService }          from './task.service';
 import { TaskSearchComponent}  from './task-search.component';
+import { LocalStorageModule } from 'angular-2-local-storage';
+
 
 
 @NgModule({
   imports: [
+    LocalStorageModule.withConfig({
+      prefix: 'my-app',
+      storageType: 'localStorage'
+    }),
     BrowserModule,
     FormsModule,
     HttpModule,
@@ -29,7 +35,7 @@ import { TaskSearchComponent}  from './task-search.component';
     TasksComponent,
     TaskSearchComponent
   ],
-  providers: [ TaskService, InMemoryDataService ],
+  providers: [ TaskService, InMemoryDataService],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }

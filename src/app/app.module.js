@@ -18,6 +18,7 @@ var tasks_component_1 = require("./tasks.component");
 var task_detail_component_1 = require("./task-detail.component");
 var task_service_1 = require("./task.service");
 var task_search_component_1 = require("./task-search.component");
+var angular_2_local_storage_1 = require("angular-2-local-storage");
 var AppModule = (function () {
     function AppModule() {
     }
@@ -26,6 +27,10 @@ var AppModule = (function () {
 AppModule = __decorate([
     core_1.NgModule({
         imports: [
+            angular_2_local_storage_1.LocalStorageModule.withConfig({
+                prefix: 'my-app',
+                storageType: 'localStorage'
+            }),
             platform_browser_1.BrowserModule,
             forms_1.FormsModule,
             http_1.HttpModule,
