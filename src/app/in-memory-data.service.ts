@@ -1,7 +1,11 @@
 import { Observable }        from 'rxjs/Observable';
 import { Task }        from './task';
+import {Injectable} from "@angular/core";
+
+@Injectable()
 export class InMemoryDataService {
   private tmp: Task[];
+
   constructor() {
     this.tmp = [];
     const tasks = [
@@ -25,13 +29,16 @@ export class InMemoryDataService {
   getDb(): Task[] {
     return this.tmp;
   }
-  add(name:string): void{
+  add(name: string ): void{
     this.tmp.push(new Task(this.tmp.length, name));
-  return;}
-  delete(id:number):void{
-    for ( var i = 0; i < this.tmp.length; i++){
-      if(this.tmp[i].id==id)
-      this.tmp.splice(i, 1);
+  return;
+  }
+  delete(id: number): void {
+    for (var i = 0; i < this.tmp.length; i++) {
+      if (this.tmp[i].id == id) {
+        this.tmp.splice(i, 1);
+        console.log(this.tmp);
+      }
     }
   }
 

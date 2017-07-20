@@ -10,17 +10,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = require("@angular/core");
-var http_1 = require("@angular/http");
 require("rxjs/add/operator/toPromise");
 var Observable_1 = require("rxjs/Observable");
 var in_memory_data_service_1 = require("./in-memory-data.service");
 var TaskService = (function () {
     //private tasks = Observable.of<Task[]>(this.inMemoryDataService.createDb());
-    function TaskService() {
-        this.headers = new http_1.Headers({ 'Content-Type': 'application/json' });
-        this.taskUrl = 'tasks'; // URL to web api
-        this.inMemoryDataService = new in_memory_data_service_1.InMemoryDataService();
-        console.log(Observable_1.Observable.of(this.inMemoryDataService.getDb()));
+    function TaskService(inMemoryDataService) {
+        this.inMemoryDataService = inMemoryDataService;
+        console.log('create service');
     }
     TaskService.prototype.getTasks = function () {
         return this.inMemoryDataService.getDb();
@@ -71,6 +68,9 @@ var TaskService = (function () {
     TaskService.prototype.delete = function (id) {
         this.inMemoryDataService.delete(id);
     };
+    TaskService.prototype.add = function (name) {
+        this.inMemoryDataService.add(name);
+    };
     TaskService.prototype.handleError = function (error) {
         console.error('An error occurred', error); // for demo purposes only
         return Promise.reject(error.message || error);
@@ -79,7 +79,7 @@ var TaskService = (function () {
 }());
 TaskService = __decorate([
     core_1.Injectable(),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [in_memory_data_service_1.InMemoryDataService])
 ], TaskService);
 exports.TaskService = TaskService;
 //# sourceMappingURL=task.service.js.map

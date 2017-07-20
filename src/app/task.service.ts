@@ -8,19 +8,17 @@ import { Observable }        from 'rxjs/Observable';
 import {InMemoryDataService}     from './in-memory-data.service';
 
 
-
 @Injectable()
 export class TaskService {
-  private headers = new Headers({'Content-Type': 'application/json'});
-  private taskUrl = 'tasks';  // URL to web api
-  private inMemoryDataService= new InMemoryDataService();
+
   //private tasks = Observable.of<Task[]>(this.inMemoryDataService.createDb());
-  constructor() { console.log(Observable.of<Task[]>(this.inMemoryDataService.getDb())); }
+  constructor(private inMemoryDataService: InMemoryDataService) { console.log('create service'); }
   getTasks(): Task[] {
     return this.inMemoryDataService.getDb();
   }
 
-  getInMemoryDataService():InMemoryDataService{return this.inMemoryDataService;}
+
+  getInMemoryDataService(): InMemoryDataService {return this.inMemoryDataService;}
   // getTask(id: number): Promise<Task> {
   //   const url = `${this.taskUrl}/${id}`;
   //   return this.http.get(url)
@@ -58,12 +56,16 @@ export class TaskService {
       var firstChar = value.name.substr(0, term.length);
       if (firstChar.toLowerCase() == term)
         return true;
-      else {return false;}
+      else {return false;
+      }
     }));
   }
 
   delete(id: number): void {
     this.inMemoryDataService.delete(id);
+  }
+  add( name: string ): void{
+    this.inMemoryDataService.add(name);
   }
 
   private handleError(error: any): Promise<any> {

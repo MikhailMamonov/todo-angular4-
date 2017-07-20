@@ -5,6 +5,7 @@ import { Location }                 from '@angular/common';
 
 import { Task }        from './task';
 import { TaskService } from './task.service';
+import {InMemoryDataService} from "./in-memory-data.service";
 
 @Component({
   selector: 'hero-detail',
@@ -36,10 +37,10 @@ export class TaskDetailComponent implements OnInit {
 
   add(name: string): void {
     name = name.trim();
-    if (!name) { return; }
-    this.taskService.getInMemoryDataService().add(name);
-    this.selectedTask = null;
-    this.gotoTasks()
+    if (!name) {
+      return; }
+    this.taskService.add(name);
+    this.gotoTasks();
   }
 
   gotoTasks(): void {

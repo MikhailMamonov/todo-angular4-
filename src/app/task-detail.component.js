@@ -35,8 +35,7 @@ var TaskDetailComponent = (function () {
         if (!name) {
             return;
         }
-        this.taskService.getInMemoryDataService().add(name);
-        this.selectedTask = null;
+        this.taskService.add(name);
         this.gotoTasks();
     };
     TaskDetailComponent.prototype.gotoTasks = function () {
